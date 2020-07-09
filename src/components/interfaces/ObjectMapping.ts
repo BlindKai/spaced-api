@@ -1,4 +1,4 @@
-export interface ObjectMapping<T, dto> {
-  fromDto(dto: dto): T;
-  toDto(entity: T): dto;
+export interface ObjectMapping<T, DTO> {
+  fromDto(dto: DTO): T;
+  toDto(entity: T): DTO;
 }

@@ -11,3 +11,10 @@ export type ResponseModel = {
   data?: object;
   error?: object;
 };
+
+export type ValidationError = {
+  message: string;
+  field: string;
+};
+
+export type ValidationResult<DTO> = [null | ValidationError, DTO | null];

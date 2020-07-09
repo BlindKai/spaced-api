@@ -1,10 +1,5 @@
-export type ValidationError = {
-  message: string;
-  field: string;
-};
+import { ValidationResult } from ".";
 
-export type ValidationResult<dto> = [null | ValidationError, dto | null];
-
-export interface Validation<dto> {
-  validate(dto: dto): ValidationResult<dto>;
+export interface Validation<DTO> {
+  validate(dto: DTO): ValidationResult<DTO>;
 }
