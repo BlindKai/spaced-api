@@ -1,6 +1,6 @@
-import { Interactor } from "../components/interfaces/Interactor";
-import { RequestModel } from "../components/interfaces";
 import { Request, Response } from "express";
+import { RequestModel, ResponseModel } from "../components/interfaces";
+import { Interactor } from "../components/interfaces/Interactor";
 
 /**
  * Example of Delivery mechanism implementation with `Express` framework.
@@ -14,7 +14,7 @@ export function ExpressController(useCase: Interactor) {
       body: req.body,
     };
 
-    const responseModel = await useCase.execute(requestModel);
+    const responseModel: ResponseModel = await useCase.execute(requestModel);
 
     res.json(responseModel);
   };

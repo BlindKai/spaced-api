@@ -3,19 +3,15 @@ import { RequestModel, ResponseModel } from "../../interfaces";
 import { AbstractSubjectRepository } from "../repositories/AbstractSubjectRepository";
 
 export class ListSubjects extends Interactor {
-  private readonly _subjectRepo: AbstractSubjectRepository;
+  private readonly subjects: AbstractSubjectRepository;
 
   constructor(subjectsRepo: AbstractSubjectRepository) {
     super();
-    this._subjectRepo = subjectsRepo;
+    this.subjects = subjectsRepo;
   }
 
-  async executeImpl(req: RequestModel): Promise<ResponseModel> {
+  async executeImpl({}: RequestModel): Promise<ResponseModel> {
     const subjects = await this.subjects.list();
-    return Array.isArray(subjects) ? ListSubjects.ok(subjects) : ListSubjects.notFound();
-  }
-
-  get subjects() {
-    return this._subjectRepo;
+    return Array.isArray(subjects) ? this.ok(subjects.map(this.subjects.toDto)) : this.notFound();
   }
 }

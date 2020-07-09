@@ -1,16 +1,28 @@
+import Joi from "@hapi/joi";
+
 import { AbstractSubjectRepository } from "./AbstractSubjectRepository";
-import { Subject } from "../Subject";
 import { SubjectDTO } from "../SubjectDTO";
-import { ObjectMapping } from "../../interfaces/ObjectMapping";
-import { Validation, ValidationResult } from "../../interfaces/Validation";
+import { Subject } from "../Subject";
+import { ValidationResult } from "../../interfaces/Validation";
+import { findSubject } from "../controllers";
 
 /**
  * Implementation of abstract class, provide details with chosen DBMS, mapping and validation.
  */
-export class SubjectRepository extends AbstractSubjectRepository
-  implements ObjectMapping<Subject, SubjectDTO>, Validation<SubjectDTO> {
-  list(): Promise<Subject[] | null> {
-    throw new Error("Method not implemented.");
+export class SubjectRepository implements AbstractSubjectRepository {
+  async list(): Promise<Subject[] | null> {
+    const fake: Subject[] = [
+      {
+        id: 5,
+        title: "first subject",
+        description: "",
+        created_at: new Date(),
+        updated_at: new Date(),
+        times_repeated: 4,
+        user_id: 5,
+      },
+    ];
+    return fake;
   }
 
   find(subjectId: number): Promise<Subject[] | null> {
@@ -61,7 +73,19 @@ export class SubjectRepository extends AbstractSubjectRepository
     };
   }
 
-  validate(dto: SubjectDTO): ValidationResult<SubjectDTO> {
-    throw new Error("Method not implemented.");
+  validate(fields: any): ValidationResult<SubjectDTO> {
+    const schema = Joi.object({
+      id: Joi.number().min(0).message("Wrong id format"),
+      title: Joi.string().min(5).required().message("No title was provided"),
+      description: Joi.string().max(255).message("Description is too long"),
+      user: Joi.number().required().message("Specified user doesn't exist"),
+      timesRepeated: Joi.number().min(0).message("Incorrect repeated counter"),
+      createdAt: Joi.date(),
+      updatedAt: Joi.date(),
+    });
+
+    const { value, error, errors } = schema.validate(fields);
+
+    return value ? [undefined, value] : [error || errors, undefined];
   }
 }

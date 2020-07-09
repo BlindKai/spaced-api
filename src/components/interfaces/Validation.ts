@@ -1,6 +1,5 @@
-export type ValidationError = { message: string; field: string };
-export type ValidationResult<DTO> = [null | ValidationError, DTO | null];
+export type ValidationResult<DTO> = [undefined, DTO] | [any, undefined];
 
 export interface Validation<DTO> {
-  validate(dto: DTO): ValidationResult<DTO>;
+  validate(fields: any): ValidationResult<DTO>;
 }

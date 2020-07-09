@@ -1,5 +1,5 @@
 export interface SubjectDTO {
-  id: string;
+  id: number;
   title: string;
   description: string;
   timesRepeated: number;
