@@ -1,7 +1,7 @@
 export type RequestModel = {
-  params: object;
-  query: object;
-  body: object;
+  params?: any;
+  query?: any;
+  body?: any;
 };
 
 export type ResponseModel = {
@@ -11,10 +11,3 @@ export type ResponseModel = {
   data?: object;
   error?: object;
 };
-
-export type ValidationError = {
-  message: string;
-  field: string;
-};
-
-export type ValidationResult<DTO> = [null | ValidationError, DTO | null];
